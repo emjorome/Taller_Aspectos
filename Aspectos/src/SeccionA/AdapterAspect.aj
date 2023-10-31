@@ -1,17 +1,15 @@
 package SeccionA;
 
+
+
 public aspect AdapterAspect {
 	
-	pointcut callSay(): call(* *.say*());
+	// Punto de corte para interceptar llamadas al método 'convertir' de JPGtoPNGAdapter
+    pointcut convertirCall(): execution(void SeccionA.JPGtoPNGAdapter.convertir());
 
-    before() : callSay() {
-        
-    }
-
-    pointcut convertir(): execution(void JPGtoPNGAdapter.convertir());
-
-    after() : convertir() {
-        System.out.println("Después de llamar al método convertir de JPGtoPNGAdapter.");
+   
+    before() : convertirCall() {
+        System.out.println("Adaptando JPG a PNG...");
     }
 
 }
