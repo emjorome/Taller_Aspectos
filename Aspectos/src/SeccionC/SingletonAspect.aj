@@ -1,19 +1,19 @@
 package SeccionC;
 
-import SeccionA.JPGtoPNGAdapter;
+public aspect SingletonAspect {
+    private static Singleton Singleton.instance;
 
-public aspect SingletonAspect{
-	private static JPGtoPNGAdapter myConverter;
+    pointcut singletonInstanceCreation(): initialization(Singleton.new(..));
 
-	pointcut singletonCreation(): call(JPGtoPNGAdapter.new(..));
+    after(Singleton singleton): singletonInstanceCreation() {
+        if (Singleton.getInstance() == null) {
+            Singleton.setInstance(singleton);
+        } else {
+            singleton = Singleton.getInstance();
+        }
+    }
 
-	after() returning(JPGtoPNGAdapter instance): singletonCreation(){
-		if(myConverter == null) {
-			myConverter = instance;
-		}
-	}
-	
-	public static JPGtoPNGAdapter JPGtoPNGAdapter.getInstance(){
-		return myConverter;
-	}
+    public static Singleton Singleton.getInstance() {
+        return Singleton.getInstance();
+    }
 }
